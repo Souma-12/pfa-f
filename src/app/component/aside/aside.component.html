@@ -1,0 +1,49 @@
+<!--sidebar start-->
+<aside>
+    <div id="sidebar" class="nav-collapse ">
+        <!-- sidebar menu start-->
+        <ul class="sidebar-menu">
+            <li class="active">
+                <a class="" href="#">
+                    <i class="icon_house_alt"></i>
+                    <span>Tableau de bord</span>
+                </a>
+            </li>
+            <li class="">
+                <a [routerLink]="['/principal', {outlets: {child1: ['actualite']}}]">
+                    <i class="icon_calendar"></i>
+                    <span>Actualite</span>
+                </a>
+            </li>
+
+
+            <li>
+                <a class="" [routerLink]="['/principal', {outlets: {child1: ['entreprise']}}]">
+                    <i class="social_myspace"></i>
+                    <span>Entreprise</span>
+                </a>
+            </li>
+            <li class="sub-menu" [ngClass]="{'active':congSub}" (click)="congSub=!congSub">
+                <a class="" style="cursor: pointer;" [routerLink]="['/principal', {outlets: {child1: ['candidat']}}]">
+                    <i class="social_myspace"></i>
+                    <span>Candidat</span>
+
+                </a>
+
+            </li>
+            <li>
+                <a class="" [routerLink]="['/principal', {outlets: {child1: ['offre']}}]">
+                    <i class="icon_currency"></i>
+                    <span>Offre</span>
+                </a>
+            </li>
+         
+       
+
+            
+
+        </ul>
+        <!-- sidebar menu end-->
+    </div>
+</aside>
+<!--sidebar end-->

@@ -1,0 +1,246 @@
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading">
+                <h3>Liste des Actualitées</h3>
+                <div style="float: right; margin-bottom: 10px;">
+                    <button class="btn btn-primary" style="margin-right: 5px;" (click)="openModal(template)">Nouveau
+                        actualité</button>
+                    <button class="btn btn-info" (click)="showFilter()">Filtrer<i class="fa fa-filter"
+                            aria-hidden="true"></i></button>
+                </div>
+            </header>
+            <div style="margin-top: 30px; margin-right: 2">
+
+                <div type="success" dismissible="true" *ngIf="deleted">
+                    <strong>Succées !</strong> La suppression est effectué avec succés.
+                </div>
+            </div>
+            <table class="table table-striped table-advance table-hover" *ngIf="!(noData && dataLoaded)">
+                <thead>
+                    <tr>
+                        <th>
+                            createdBy
+                        </th>
+                        <th>
+                            createdAt                        </th>
+                        <th>
+                            modifiedAt                        </th>
+
+                        <th style="min-width: 5%;">Action</th>
+                    </tr>
+                </thead>
+                <tbody *ngFor="let act of actualites">
+                    <tr>
+
+                        <td>{{act.createdBy}}</td>
+                        <td>{{act.createdAt | date: 'dd-MM-yyyy'}}</td>
+                        <td>{{act.modifiedAt | date: 'dd-MM-yyyy'}}</td>
+
+                        <td>
+                            <div class="btn-group">
+                                <button class="btn btn-info" tooltip="Details"
+                                    (click)="openDetailsModal(details, act)"><i class="icon_info_alt"></i></button>
+                                <button tooltip="Modifier" (click)="openUpdateModal(updatetemplate, act)"
+                                    class="btn btn-success"><i class="icon_pencil-edit_alt"></i></button>
+                                <button class="btn btn-danger" tooltip="Supprimer"
+                                    (click)="openDeleteModal(confirmDelete, act, i)"><i
+                                        class="icon_close_alt2"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </section>
+    </div>
+</div>
+
+<ng-template #template>
+    <form class="form-horizontal " method="get">
+        <div class="modal-header">
+            <h3 class="modal-title pull-left">Ajout d'un actualite</h3>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">
+
+
+            <div class="form-group">
+                <div class="col-sm-4 pull-left">
+                    <label class="control-label">createdBy *</label></div>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" [(ngModel)]="newActualite.createdBy"
+                        [ngModelOptions]="{standalone: true}" id="createdBy" nom="createdBy" required #createdBy="ngModel">
+                    <div *ngIf="createdBy.errors && (createdBy.dirty || createdBy.touched)" class="alert alert-danger">
+                        <div [hidden]="!createdBy.errors.required">
+                            createdBy obligatoire!
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4 pull-left">
+                    <label class="control-label">createdAt*</label></div>
+                <div class="col-sm-8">
+                    <input type="text"
+                    placeholder="Datepicker"
+                    class="form-control"
+                     [(ngModel)]="newActualite.createdAt"
+                        [ngModelOptions]="{standalone: true}" id="createdAt"
+                         nom="createdAt" bsDatepicker required
+                        #createdAt="ngModel">
+
+                    <div *ngIf="createdAt.errors && (createdAt.dirty || createdAt.touched)" class="alert alert-danger">
+                        <div [hidden]="!createdAt.errors.required">
+                            createdAt obligatoire!
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4 pull-left">
+                    <label class="control-label">modifiedAt*</label></div>
+                <div class="col-sm-8">
+                    <input type="text"
+                    placeholder="Datepicker"
+                    class="form-control"
+                     [(ngModel)]="newActualite.modifiedAt"
+                        [ngModelOptions]="{standalone: true}" id="modifiedAt"
+                         nom="modifiedAt" bsDatepicker required
+                        #modifiedAt="ngModel">
+
+                    <div *ngIf="modifiedAt.errors && (modifiedAt.dirty || modifiedAt.touched)" class="alert alert-danger">
+                        <div [hidden]="!modifiedAt.errors.required">
+                            modifiedAt obligatoire!
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+
+
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success pull-left" (click)="addActualite()">Ajouter</button>
+            <button type="button" class="btn btn-danger" (click)="modalRef.hide()">Annuler</button>
+
+        </div>
+    </form>
+</ng-template>
+
+<ng-template #updatetemplate>
+    <form class="form-horizontal">
+        <div class="modal-header">
+            <h3 class="modal-title pull-left">Modification de actualité </h3>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <div class="form-group">
+                <div class="col-sm-4 pull-left">
+                    <label class="control-label">createdBy *</label></div>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" [(ngModel)]="actualiteToUpdate.createdBy"
+                        [ngModelOptions]="{standalone: true}" id="createdBy" nom="createdBy" required #createdBy="ngModel">
+                    <div *ngIf="createdBy.errors && (createdBy.dirty || createdBy.touched)" class="alert alert-danger">
+                        <div [hidden]="!createdBy.errors.required">
+                            createdBy obligatoire!
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4 pull-left">
+                    <label class="control-label">createdAt*</label></div>
+                <div class="col-sm-8">
+                    <input type="date" class="form-control" [ngModel]="actualiteToUpdate.createdAt | date:'yyyy-MM-dd'"
+                        [ngModelOptions]="{standalone: true}" id="createdAt" nom="createdAt" required
+                        #createdAt="ngModel">
+                    <div *ngIf="createdAt.errors && (createdAt.dirty || createdAt.touched)" class="alert alert-danger">
+                        <div [hidden]="!createdAt.errors.required">
+                            createdAt obligatoire!
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4 pull-left">
+                    <label class="control-label">modifiedAt *</label></div>
+                <div class="col-sm-8">
+                    <input type="date" class="form-control" [ngModel]="actualiteToUpdate.modifiedAt | date:'yyyy-MM-dd'"
+                        [ngModelOptions]="{standalone: true}" nom="modifiedAt" id="modifiedAt" required #modifiedAt="ngModel">
+                    <div *ngIf="modifiedAt.errors && (modifiedAt.dirty || modifiedAt.touched)" class="alert alert-danger">
+                        <div [hidden]="!modifiedAt.errors.required">
+                            modifiedAt obligatoire!
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success pull-left" (click)="updateActualite();">Modifier</button>
+            <button type="button" class="btn btn-danger" (click)="modalRef.hide()">Annuler</button>
+
+        </div>
+    </form>
+</ng-template>
+
+<ng-template #confirmDelete>
+    <div class="modal-body text-center">
+        <p>Êtes-vous sûr de vouloir supprimer cet actualité ?</p>
+        <button type="button" style="margin-right: 7px;" class="btn btn-default" (click)="confirm()">Oui</button>
+        <button type="button" class="btn btn-primary" (click)="modalRef.hide()">Non</button>
+    </div>
+</ng-template>
+
+<ng-template #details>
+    <div class="modal-header">
+        <h3 class="modal-title pull-left">Detail:{{selectedActualite.createdBy}}</h3>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <table>
+                        <tr>
+                            <td>
+                                <img src="../../../assets/img/actualite.jpg" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col">
+                    <table>
+                        <tr>
+
+                            <td>
+
+                                <strong>createdBy</strong> {{selectedActualite.createdBy}}<br><br><br>
+                                <strong>createdAt</strong> {{selectedActualite.createdAt | date:'yyyy-MM-dd'}}<br><br><br>
+                                <strong>modifiedAt</strong> {{selectedActualite.modifiedAt | date:'yyyy-MM-dd'}}<br><br><br>
+
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+    </div>
+    <div style=" left: 80%;position: relative;">
+
+        <button class="btn btn-default" tooltip="Annuler" style="margin-left: 1%;" (click)="modalRef.hide()"><i
+                class="icon_close_alt2"></i> Annuler</button>
+    </div>
+
+
+    </div>
+</ng-template>

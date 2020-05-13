@@ -23,9 +23,19 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/angular-calendar/css/angular-calendar.css",
+              "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+              "src/styles.css",
+              "src/assets/css/elegant-icons-style.css",
+              "src/assets/css/bootstrap-theme.css",
+              "src/assets/css/font-awesome.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/popper.js/dist/umd/popper.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -83,6 +93,8 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -114,6 +126,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "pfa-front-end"
 }

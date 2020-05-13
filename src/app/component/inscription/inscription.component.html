@@ -1,0 +1,542 @@
+<div class="parent" *ngIf="!choose">
+    <div class="container ">
+      <div class="row">
+        <div class="login-container col-lg-4 col-md-6 col-sm-8 col-xs-12">
+          <div class="login-title text-center">
+            <h2><span style="color: #27367f;">My<strong>JOB</strong></span></h2>
+          </div>
+          <div class="login-content">
+            <div class="login-header ">
+              <h5>Choisir le type de votre compte.</h5>
+            </div>
+            <div class="login-body">
+  
+              <div class="form-group">
+                <button type="button" class="btn btn-warning form-control"
+                  (click)="chooseTypeCompte('entreprise')"><strong>Entreprise</strong></button>
+              </div>
+              <div class="form-group">
+                <button type="button" class="btn btn-warning form-control"
+                  (click)="chooseTypeCompte('candidat')"><strong>Candidat</strong></button>
+              </div>
+              <div class="form-group">
+                <button type="button" class="btn btn-warning form-control"
+                  (click)="back()"><strong>Retour</strong></button>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  
+  <!--*****************************************************************Entreprise**********************************-->
+  <form name="entrepriseForm">
+    <div class="parent" *ngIf="cmptEntreprise && choose">
+      <div class="container ">
+        <div class="row">
+          <div class="login-container col-lg-4 col-md-6 col-sm-8 col-xs-12">
+            <div class="login-title text-center">
+              <h2><span style="color: #27367f;">My<strong>JOB</strong></span></h2>
+            </div>
+            <div class="login-content" style="width: 900px; margin-left: -250px;">
+              <div class="login-body">
+  
+                <!-- <form role="form" action="" method="post" class="login-form"> -->
+                <div id="part1" style="display: inline-block; margin-right:70px; width:45%;">
+                  <div class="form-group ">
+                    <div class="pos-r">
+                      <input id="nom" type="text" name="nom" placeholder="Nom" required #nom="ngModel"
+                        [(ngModel)]="entreprise.nom" [ngModelOptions]="{standalone: true}"
+                        class="form-username form-control">
+                      <div *ngIf="!this.verifRequired(entreprise.nom) && (nom.dirty || nom.touched || tryToSubmit)"
+                        class="alert alert-danger">
+  
+                        Champ obligatoire!
+  
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group ">
+                    <div class="pos-r">
+                      <textarea name="Secteur" placeholder="Secteur" id="Secteur"
+                        [(ngModel)]="entreprise.Secteur" [ngModelOptions]="{standalone: true}"
+                        class="form-username form-control" rows="4" required #Secteur="ngModel"></textarea>
+                      <div *ngIf="this.verifRequired(entreprise.nom) && !this.verifRequired(entreprise.Secteur)
+                        && (Secteur.dirty || Secteur.touched || tryToSubmit)" class="alert alert-danger">
+                        Champ obligatoire!
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group ">
+                    <div class="pos-r">
+                      <input id="siteWeb" type="url" name="SiteWeb" placeholder="siteWeb" [(ngModel)]="entreprise.SiteWeb" required
+                        [ngModelOptions]="{standalone: true}" class="form-username form-control" #siteWeb="ngModel">
+                      <div
+                        *ngIf="(this.verifRequired(entreprise.nom) && this.verifRequired(entreprise.Secteur) &&
+                        (!this.verifRequired(entreprise.SiteWeb)|| !verifUrlField(entreprise.SiteWeb))) && (SiteWeb.dirty || SiteWeb.touched || tryToSubmit)"
+                        class="alert alert-danger">
+                        <div
+                          *ngIf="(this.verifRequired(entreprise.nom) && this.verifRequired(entreprise.Secteur) &&
+                        (!this.verifRequired(entreprise.SiteWeb))) && (SiteWeb.dirty || SiteWeb.touched || tryToSubmit)">
+                          Champ obligatoire!
+                        </div>
+                        <div
+                          *ngIf="(this.verifRequired(entreprise.nom) && this.verifRequired(entreprise.Secteur) &&
+                        (this.verifRequired(entreprise.SiteWeb) && !verifUrlField(entreprise.SiteWeb))) && (SiteWeb.dirty || SiteWeb.touched || tryToSubmit)">
+                          Format incorrecte du site!
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group ">
+                    <div class="pos-r">
+                      <input id="adress" type="text" name="adress" placeholder="Adresse" [(ngModel)]="entreprise.adress"
+                        [ngModelOptions]="{standalone: true}" class="form-username form-control" #adress="ngModel"
+                        required>
+                      <div *ngIf="this.verifRequired(entreprise.nom) && this.verifRequired(entreprise.Secteur)
+                      && this.verifRequired(entreprise.siteWeb) && !this.verifRequired(entreprise.adress) &&
+                      this.verifUrlField(entreprise.adress) && (adress.dirty || adress.touched || tryToSubmit)"
+                        class="alert alert-danger">
+                        Champ obligatoire!
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group ">
+                    <div class="pos-r">
+                      <input id="taille" type="text" name="TailleEntreprise" placeholder="Taille de l'entreprise"
+                        [(ngModel)]="entreprise.TailleEntreprise" [ngModelOptions]="{standalone: true}" required
+                        class="form-username form-control" #TailleEntreprise="ngModel">
+                      <div *ngIf="this.verifRequired(entreprise.nom) && this.verifRequired(entreprise.Secteur)
+                      && this.verifRequired(entreprise.siteWeb) && !this.verifRequired(entreprise.adress) && this.verifRequired(entreprise.TailleEntreprise)
+                      && (TailleEntreprise.dirty || TailleEntreprise.touched || tryToSubmit)" class="alert alert-danger">
+                        Champ obligatoire!
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group ">
+                    <div class="pos-r">
+                      <input id="type" type="text" name="telephone" placeholder="telephone de l'entreprise"
+                        [(ngModel)]="entreprise.telephone" [ngModelOptions]="{standalone: true}" required
+                        class="form-username form-control" #telephone="ngModel">
+                      <div *ngIf="this.verifRequired(entreprise.nom) && this.verifRequired(entreprise.Secteur)
+                      && this.verifRequired(entreprise.siteWeb) && this.verifRequired(entreprise.TailleEntreprise) 
+                      && !this.verifRequired(entreprise.adress) && this.verifRequired(entreprise.telephone)
+                       && (telephone.dirty || telephone.touched || tryToSubmit)" class="alert alert-danger">
+                        Champ obligatoire!
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <button type="button" class="btn btn-warning form-control"
+                      (click)="back()"><strong>Retour</strong></button>
+                  </div>
+                </div>
+                <div id="part2" style="display: inline-block; width:45%;">
+  
+                  <div class="form-group ">
+                    <div class="pos-r">
+                      <input id="fondation" type="text" name="fondation" placeholder="fondation de l'entreprise"
+                        [(ngModel)]="entreprise.fondation" [ngModelOptions]="{standalone: true}" required
+                        class="form-username form-control" #fondation="ngModel">
+                      <div *ngIf="this.verifRequired(entreprise.nom) && this.verifRequired(entreprise.Secteur)
+                      && this.verifRequired(entreprise.siteWeb) && this.verifRequired(entreprise.TailleEntreprise) &&
+                      this.verifRequired(entreprise.adress) && this.verifRequired(entreprise.telephone) &&
+                      !this.verifRequired(entreprise.fondation)
+                        && (fondation.dirty || fondation.touched || tryToSubmit )"
+                        class="alert alert-danger">
+                          Champ obligatoire!
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group ">
+                    <div class="pos-r">
+                      <select [(ngModel)]="entreprise.pays" [ngModelOptions]="{standalone: true}"
+                        class="form-username form-control" #pays="ngModel">
+                        <option selected disabled>Pays</option>
+                        <option *ngFor="let pays of paysList">{{Pays}}</option>
+                      </select>
+                      <div
+                        *ngIf="(this.verifRequired(entreprise.nom) && this.verifRequired(entreprise.Secteur)
+                        && this.verifRequired(entreprise.siteWeb) && this.verifRequired(entreprise.TailleEntreprise) &&
+                        this.verifRequired(entreprise.telephone) && this.verifRequired(entreprise.adress) &&
+                        this.verifRequired(entreprise.fondation) && !verifRequired(entreprise.pays)) &&
+                        (pays.dirty || pays.touched || tryToSubmit)"
+                        class="alert alert-danger">
+                          Champ obligatoire!
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group ">
+                    <div class="pos-r">
+                      <input id="email" type="email" name="email" placeholder="Email" required #email="ngModel"
+                        [(ngModel)]="entreprise.email" [ngModelOptions]="{standalone: true}"
+                        class="form-username form-control">
+                      <div
+                        *ngIf="((this.verifRequired(entreprise.nom) && this.verifRequired(entreprise.Secteur)
+                        && this.verifRequired(entreprise.SiteWeb) && this.verifRequired(entreprise.TailleEntreprise) &&
+                        this.verifRequired(entreprise.telephone) && this.verifRequired(entreprise.adress) &&
+                        this.verifRequired(entreprise.fondation) && verifRequired(entreprise.pays)) &&
+                        (!verifRequired(entreprise.email) || !verifEmailField(entreprise.email) || usedMail)) &&
+                        (email.dirty || email.touched || tryToSubmit)"
+                        class="alert alert-danger">
+                        <div *ngIf="((this.verifRequired(entreprise.nom) && this.verifRequired(entreprise.Secteur)
+                        && this.verifRequired(entreprise.siteWeb) && this.verifRequired(entreprise.TailleEntreprise) &&
+                        this.verifRequired(entreprise.telephone) && this.verifRequired(entreprise.adress) &&
+                        this.verifRequired(entreprise.fondation) && verifRequired(entreprise.pays)) &&
+                        !verifRequired(entreprise.email))">
+                          Champ obligatoire!
+                        </div>
+                        <div *ngIf="((this.verifRequired(entreprise.nom) && this.verifRequired(entreprise.Secteur)
+                        && this.verifRequired(entreprise.siteWeb) && this.verifRequired(entreprise.TailleEntreprise) &&
+                        this.verifRequired(entreprise.telephone) && this.verifRequired(entreprise.adress) &&
+                        this.verifRequired(entreprise.fondation) && verifRequired(entreprise.pays)) &&
+                        verifRequired(entreprise.email) && !verifEmailField(entreprise.email))">
+                          Format incorrecte!
+                        </div>
+                        <div *ngIf="((this.verifRequired(entreprise.nom) && this.verifRequired(entreprise.Secteur)
+                        && this.verifRequired(entreprise.siteWeb) && this.verifRequired(entreprise.TailleEntreprise) &&
+                        this.verifRequired(entreprise.telephone) && this.verifRequired(entreprise.adress) &&
+                        this.verifRequired(entreprise.fondation) && verifRequired(entreprise.pays)) &&
+                        verifRequired(entreprise.email) && verifEmailField(entreprise.email) && usedMail)">
+                          Email déja utilisé!
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="pos-r">
+                      <input id="form-password" type="password" name="form-password" placeholder="Mot de passe"
+                        [(ngModel)]="entreprise.password" [ngModelOptions]="{standalone: true}"
+                        class="form-password form-control" #pwd="ngModel">
+                      <div
+                        *ngIf="((this.verifRequired(entreprise.nom) && this.verifRequired(entreprise.Secteur)
+                        && this.verifRequired(entreprise.siteWeb) && this.verifRequired(entreprise.TailleEntreprise) &&
+                        this.verifRequired(entreprise.telephone) && this.verifRequired(entreprise.adress) &&
+                        this.verifRequired(entreprise.fondation) && verifRequired(entreprise.pays)) &&
+                        verifRequired(entreprise.email) && verifEmailField(entreprise.email) && !usedMail) &&
+                        (!verifRequired(entreprise.password) || !verifPassWordField(entreprise.password)) &&
+                        (pwd.dirty || pwd.touched || tryToSubmit)"
+                        class="alert alert-danger">
+                        <div *ngIf="((this.verifRequired(entreprise.nom) && this.verifRequired(entreprise.Secteur)
+                        && this.verifRequired(entreprise.siteWeb) && this.verifRequired(entreprise.TailleEntreprise) &&
+                        this.verifRequired(entreprise.telephone) && this.verifRequired(entreprise.adress) &&
+                        this.verifRequired(entreprise.fondation) && verifRequired(entreprise.pays)) &&
+                        verifRequired(entreprise.email) && verifEmailField(entreprise.email) && !usedMail) &&
+                        (!verifRequired(entreprise.password))">
+                          Champ obligatoire!
+                        </div>
+                        <div *ngIf="((this.verifRequired(entreprise.nom) && this.verifRequired(entreprise.Secteur)
+                        && this.verifRequired(entreprise.siteWeb) && this.verifRequired(entreprise.TailleEntreprise) &&
+                        this.verifRequired(entreprise.telephone) && this.verifRequired(entreprise.adress) &&
+                        this.verifRequired(entreprise.fondation) && verifRequired(entreprise.pays)) &&
+                        verifRequired(entreprise.email) && verifEmailField(entreprise.email) && !usedMail) &&
+                        (verifRequired(entreprise.password) && !verifPassWordField(entreprise.password))">
+                          Format incorrecte (min 8 caratére contenant au moins un chiffre, un caractére miniscule, un
+                          caractére majiscule et un caractére spécial)!
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="pos-r">
+                      <input id="confirmation" type="password" name="confirmation" required #confirmation="ngModel"
+                        [(ngModel)]="passwordConfirmation" [ngModelOptions]="{standalone: true}"
+                        placeholder="Confirmation mot de passe" class="form-password form-control">
+                      <div *ngIf="tryToSubmit && (this.verifRequired(entreprise.nom) && this.verifRequired(entreprise.Secteur)
+                      && this.verifRequired(entreprise.siteWeb) && this.verifRequired(entreprise.TailleEntreprise) &&
+                      this.verifRequired(entreprise.telephone) && this.verifRequired(entreprise.adress) &&
+                      this.verifRequired(entreprise.fondation) && verifRequired(entreprise.pays) &&
+                      verifRequired(entreprise.email) && verifEmailField(entreprise.email) && !usedMail &&
+                      verifRequired(entreprise.password) && verifPassWordField(entreprise.password) &&
+                      !verifConfirmationPassword(entreprise.password, passwordConfirmation))"
+                        class="alert alert-danger">
+                          Mot de passe et confirmation incompatible!
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="pos-r">
+                      <input id="photo" type="file" accept="image/*" name="photo" placeholder="Photo"
+                        accept="image/x-png,image/gif,image/jpeg" required [(ngModel)]="entreprise.photo"
+                        [ngModelOptions]="{standalone: true}" (change)="handleImageentrepriseInput($event.target.files)"
+                        class="form-password form-control" style="display: none;" #photo="ngModel">
+                      <label id="upload-photo-label" for="photo">LOGO</label>
+                      <div *ngIf="this.verifRequired(entreprise.nom) && this.verifRequired(entreprise.Secteur) && !this.verifRequired(entreprise.photo)
+                      && this.verifRequired(entreprise.siteWeb) && this.verifRequired(entreprise.TailleEntreprise) && this.verifRequired(entreprise.telephone) &&
+                      this.verifRequired(entreprise.fondation) && this.verifRequired(entreprise.adress) && this.verifRequired(entreprise.pays) &&
+                      this.verifRequired(entreprise.email) && this.verifRequired(entreprise.password)  &&
+                      this.verifUrlField(entreprise.siteWeb) && this.verifEmailField(entreprise.email) && this.verifPassWordField(entreprise.password) &&
+                      this.verifConfirmationPassword(entreprise.password, this.passwordConfirmation) && !this.usedMail && (photo.dirty || photo.touched || tryToSubmit)"
+                        class="alert alert-danger">
+                          Champ obligatoire!
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-warning form-control"
+                      (click)="inscription()"><strong>S'inscrire</strong></button>
+                  </div>
+  
+                </div>
+                <!-- </form> -->
+              </div>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- </form> -->
+  
+    <!--*****************************************************************Candidat**********************************-->
+    <form name="candidatForm">
+      <div class="parent" *ngIf="cmptCandidat && choose">
+        <div class="container ">
+          <div class="row">
+            <div class="login-container col-lg-4 col-md-6 col-sm-8 col-xs-12">
+              <div class="login-title text-center">
+                <h2><span style="color: #27367f;">My<strong>JOB</strong></span></h2>
+              </div>
+              <div class="login-content" style="width: 900px; margin-left: -250px;">
+                <div class="login-body">
+                  <div id="part1" style="display: inline-block; margin-right:70px; width:45%;">
+                    <div class="form-group ">
+                      <div class="pos-r">
+                        <input id="nom" type="text" name="nom" placeholder="Nom" required #nomc="ngModel"
+                          [(ngModel)]="candidat.nom" [ngModelOptions]="{standalone: true}"
+                          class="form-username form-control">
+                        <div *ngIf="(!this.verifRequired(candidat.nom))
+                        && (nomc.dirty || nomc.touched || tryToSubmit)"
+                          class="alert alert-danger">
+                            Champ obligatoire!
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group ">
+                      <div class="pos-r">
+                        <input type="text" name="prenom" placeholder="Prénom" id="prenom" required #prenom="ngModel"
+                          [(ngModel)]="candidat.prenom" class="form-username form-control">
+                        <div *ngIf="(this.verifRequired(candidat.nom) && !this.verifRequired(candidat.prenom))
+                        && (prenom.dirty || prenom.touched || tryToSubmit)"
+                          class="alert alert-danger">
+                            Champ obligatoire!
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group ">
+                      <div class="pos-r">
+                        <input id="datenaiss" type="text" onfocus="(this.type='date')" name="datenaiss" required
+                          #nodatenaissm="ngModel" [(ngModel)]="candidat.dateNaiss" placeholder="Date de naissance"
+                          class="form-username form-control">
+                        <div
+                          *ngIf="(this.verifRequired(candidat.nom) && this.verifRequired(candidat.prenom) &&
+                          !this.verifRequired(candidat.dateNaiss))
+                          && (nodatenaissm.dirty || nodatenaissm.touched || tryToSubmit)"
+                          class="alert alert-danger">
+                            Champ obligatoire!
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group ">
+                      <div class="pos-r">
+                        <input id="adress" type="text" name="adress" placeholder="Adresse" required #adressc="ngModel"
+                          [(ngModel)]="candidat.adress" class="form-username form-control">
+                        <div *ngIf="(this.verifRequired(candidat.nom) && this.verifRequired(candidat.prenom) &&
+                        this.verifRequired(candidat.dateNaiss) &&  !this.verifRequired(candidat.adress))
+                        && (adressc.dirty || adressc.touched || tryToSubmit)"
+                          class="alert alert-danger">
+                            Champ obligatoire!
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group ">
+                      <div class="pos-r">
+                        <input id="telephone" type="telephone" name="telephone" placeholder="Numéro de telephone" required #telephone="ngModel"
+                          [(ngModel)]="candidat.telephone" class="form-username form-control">
+                        <div
+                          *ngIf="(this.verifRequired(candidat.nom) && this.verifRequired(candidat.prenom) &&
+                          this.verifRequired(candidat.dateNaiss) &&  this.verifRequired(candidat.adress)&&
+                          (!this.verifRequired(candidat.telephone) || !this.verifTelField(candidat.telephone)))
+                          && (telephone.dirty || telephone.touched || tryToSubmit)"
+                          class="alert alert-danger">
+                          <div *ngIf="!verifRequired(candidat.telephone)">
+                            Champ obligatoire!
+                          </div>
+                          <div *ngIf="verifRequired(candidat.telephone) && !verifTelField(candidat.telephone)">
+                            Format incorrecte(XXXXXXXX ou XX-XXX-XXX ou XX.XXX.XXX ou XX XXX XXX)!
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group ">
+                      <div class="pos-r">
+                        <input id="Competance" type="text" name="Competance" placeholder="Competance" required #Competance="ngModel"
+                          [(ngModel)]="candidat.Competance" class="form-username form-control">
+                        <div *ngIf="(this.verifRequired(candidat.nom) && this.verifRequired(candidat.prenom) &&
+                        this.verifRequired(candidat.dateNaiss) &&  this.verifRequired(candidat.adress)&&
+                        this.verifRequired(candidat.telephone) && this.verifTelField(candidat.telephone) &&
+                        !this.verifRequired(candidat.Competance)) && (Competance.dirty || Competance.touched || tryToSubmit)"
+                          class="alert alert-danger">
+                            Champ obligatoire!
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="pos-r">
+                        <input id="pj" type="file" name="pj" placeholder="CV" class="form-password form-control" required
+                          (change)="handleCVCandidatInput($event.target.files)" style="display: none;">
+                        <label id="upload-photo-label" for="pj">CV en piéce jointe</label>
+                        <div *ngIf="(this.verifRequired(candidat.nom) && this.verifRequired(candidat.prenom) &&
+                        this.verifRequired(candidat.dateNaissance) &&  this.verifRequired(candidat.adresse)&&
+                        this.verifRequired(candidat.tel) && this.verifTelField(candidat.tel) &&
+                        this.verifRequired(candidat.diplome) && !fileToUploadCVCandidat) && (tryToSubmit)" class="alert alert-danger">
+                            Champ obligatoire!
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <button type="button" class="btn btn-warning form-control"
+                        (click)="back()"><strong>Retour</strong></button>
+                    </div>
+                  </div>
+                  <div id="part2" style="display: inline-block; width:45%;">
+                    <div class="form-group ">
+                      <div class="pos-r">
+                        <input id="PosteActuel" type="text" name="PosteActuel" placeholder="PosteActuel" required #PosteActuel="ngModel"
+                          [(ngModel)]="candidat.PosteActuel" class="form-username form-control">
+                        <div *ngIf="(this.verifRequired(candidat.nom) && this.verifRequired(candidat.prenom) &&
+                        this.verifRequired(candidat.dateNaiss) &&  this.verifRequired(candidat.adress)&&
+                        this.verifRequired(candidat.telephone) && this.verifTelField(candidat.telephone) &&
+                        this.verifRequired(candidat.Competance) && fileToUploadCVCandidat &&
+                        !this.verifRequired(candidat.PosteActuel)) && (PosteActuel.dirty || PosteActuel.touched || tryToSubmit)"
+                          class="alert alert-danger">
+                            Champ obligatoire!
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group ">
+                      <div class="pos-r">
+                        <select [(ngModel)]="candidat.pays" [ngModelOptions]="{standalone: true}"
+                          class="form-username form-control" #pays="ngModel">
+                          <option selected disabled>Nationalite</option>
+                          <option *ngFor="let pays of paysList">{{pays}}</option>
+                        </select>
+                        <div
+                          *ngIf="(this.verifRequired(candidat.nom) && this.verifRequired(candidat.prenom) &&
+                          this.verifRequired(candidat.dateNaiss) &&  this.verifRequired(candidat.adress)&&
+                          this.verifRequired(candidat.telephone) && this.verifTelField(candidat.telephone) &&
+                          this.verifRequired(candidat.Competance) && fileToUploadCVCandidat &&
+                          this.verifRequired(candidat.PosteActuel)&& !this.verifRequired(candidat.pays)) &&
+                          (pays.dirty || pays.touched || tryToSubmit)"
+                          class="alert alert-danger">
+                            Champ obligatoire!
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group ">
+                      <div class="pos-r">
+                        <input id="email" type="email" name="email" placeholder="Email" required #emailc="ngModel"
+                          [(ngModel)]="candidat.email" (change)="checkUsedMail()" class="form-username form-control">
+                        <div
+                          *ngIf="(this.verifRequired(candidat.nom) && this.verifRequired(candidat.prenom) &&
+                          this.verifRequired(candidat.dateNaiss) &&  this.verifRequired(candidat.adress)&&
+                          this.verifRequired(candidat.telephone) && this.verifTelField(candidat.telephone) &&
+                          this.verifRequired(candidat.Competance) && fileToUploadCVCandidat &&
+                          this.verifRequired(candidat.PosteActuel)&& this.verifRequired(candidat.pays) &&
+                          (!this.verifRequired(candidat.email) || !this.verifEmailField(candidat.email) || this.usedMail))
+                          && (emailc.dirty || emailc.touched || tryToSubmit)"
+                          class="alert alert-danger">
+                          <div *ngIf="!verifRequired(candidat.email)">
+                            Champ obligatoire!
+                          </div>
+                          <div *ngIf="!verifEmailField(candidat.email) && verifRequired(candidat.email) && !usedMail">
+                            Format incorrecte!
+                          </div>
+                          <div *ngIf="usedMail && verifEmailField(candidat.email) && verifRequired(candidat.email)">
+                            Email déja utilisé!
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="pos-r">
+                        <input id="password" type="password" name="password" required #password="ngModel"
+                          [(ngModel)]="candidat.password" placeholder="Mot de passe" class="form-password form-control">
+                        <div
+                          *ngIf="(this.verifRequired(candidat.nom) && this.verifRequired(candidat.prenom) &&
+                          this.verifRequired(candidat.dateNaiss) &&  this.verifRequired(candidat.adress)&&
+                          this.verifRequired(candidat.telephone) && this.verifTelField(candidat.telephone) &&
+                          this.verifRequired(candidat.Competance) && fileToUploadCVCandidat &&
+                          this.verifRequired(candidat.PosteActuel)&& this.verifRequired(candidat.pays) &&
+                          this.verifRequired(candidat.email) && this.verifEmailField(candidat.email) && !this.usedMail
+                          &&  (!this.verifRequired(candidat.password) || !this.verifPassWordField(candidat.password)))
+                          && (password.dirty || password.touched || tryToSubmit)"
+                          class="alert alert-danger">
+                          <div *ngIf="!verifRequired(candidat.password)">
+                            Champ obligatoire!
+                          </div>
+                          <div *ngIf="!verifPassWordField(candidat.password) && verifRequired(candidat.password)">
+                            Format incorrecte (min 8 caratére contenant au moins un chiffre, un caractére miniscule, un
+                            caractére majiscule et un caractére spécial)!
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="pos-r">
+                        <input id="confirmation" type="password" name="confirmation" required #confirmationc="ngModel"
+                          [(ngModel)]="passwordConfirmation" (change)="checkPasswordConfirmation()"
+                          placeholder="Confirmation mot de passe" class="form-password form-control">
+                        <div *ngIf="tryToSubmit && (this.verifRequired(candidat.nom) && this.verifRequired(candidat.prenom) &&
+                        this.verifRequired(candidat.dateNaiss) &&  this.verifRequired(candidat.adress)&&
+                        this.verifRequired(candidat.telephone) && this.verifTelField(candidat.telephone) &&
+                        this.verifRequired(candidat.Competance) && fileToUploadCVCandidat &&
+                        this.verifRequired(candidat.PosteActuel)&& this.verifRequired(candidat.pays) &&
+                        this.verifRequired(candidat.email) && this.verifEmailField(candidat.email) && !this.usedMail
+                        &&  this.verifRequired(candidat.password) && this.verifPassWordField(candidat.password) &&
+                        !this.verifConfirmationPassword(candidat.password, this.pwdConfirmation))"
+                          class="alert alert-danger">
+                            Mot de passe et confirmation incompatible!
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="pos-r">
+                        <input id="photo" type="file" accept="image/*" name="photo" placeholder="Photo" required
+                          #photoc="ngModel" [(ngModel)]="candidat.photo"
+                          (change)="handleImageCandidatInput($event.target.files)"
+                          accept="image/x-png,image/gif,image/jpeg" class="form-password form-control"
+                          style="display: none;">
+                        <label id="upload-photo-label" for="photo">PHOTO</label>
+                        <div *ngIf="(this.verifRequired(candidat.nom) && this.verifRequired(candidat.prenom) &&
+                        this.verifRequired(candidat.dateNaiss) &&  this.verifRequired(candidat.adress)&&
+                        this.verifRequired(candidat.telephone) && this.verifTelField(candidat.telephone) &&
+                        this.verifRequired(candidat.Competance) && fileToUploadCVCandidat &&
+                        this.verifRequired(candidat.PosteActuel)&& this.verifRequired(candidat.pays) &&
+                        this.verifRequired(candidat.email) && this.verifEmailField(candidat.email) && !this.usedMail
+                        &&  this.verifRequired(candidat.password) && this.verifPassWordField(candidat.password) &&
+                        this.verifConfirmationPassword(candidat.password, this.passwordConfirmation) && !fileToUpload)
+                        && (photoc.dirty || photoc.touched || tryToSubmit)"
+                          class="alert alert-danger">
+                            Champ obligatoire!
+                        </div>
+                      </div>
+                    </div>
+  
+                    <div class="form-group">
+                      <button type="submit" class="btn btn-warning form-control"
+                        (click)="inscription()"><strong>S'inscrire</strong></button>
+                    </div>
+  
+                  </div>
+                  <!-- </form> -->
+                </div>
+              </div>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
